@@ -1,7 +1,7 @@
 # Online Payment Fraud Detection Using Machine Learning
 
 ## Project Description
-This project aims to detect fraudulent transactions on an online payment platform using machine learning algorithms. Using a historical dataset, which includes transactions, our model will learn to classify transactions into two categories: fraudulent and non-fraudulent.
+This project aims to detect fraudulent transactions on an online payment platform using machine learning algorithms. Using a historical dataset, which includes transactions, the model will learn to classify transactions into two categories: fraudulent and non-fraudulent.
 
 ## Project Task
 The goal of the project is to train and evaluate a **binary classification** model to detect fraudulent transactions. We will analyze the available data to understand the patterns in fraudulent transactions and build an efficient model to predict fraud based on various transaction features.
