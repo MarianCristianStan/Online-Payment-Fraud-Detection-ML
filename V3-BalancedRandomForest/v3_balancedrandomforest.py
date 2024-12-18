@@ -8,6 +8,10 @@ from sklearn.model_selection import train_test_split
 from imblearn.combine import SMOTETomek
 from imblearn.ensemble import BalancedRandomForestClassifier
 from sklearn.tree import plot_tree
+import warnings
+
+# Suppress warnings
+warnings.filterwarnings("ignore")
 
 data = pd.read_csv('onlinefraud.csv')
 data = data.drop(columns=['nameOrig', 'nameDest', 'isFlaggedFraud'])
@@ -21,9 +25,10 @@ y = data['isFraud']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, stratify=y, random_state=0)
 
 smote_tomek = SMOTETomek(random_state=0)
-X_resampled, y_resampled = smote_tomek.fit_resample(X_train, y_train)
+X_train_resampled, y_train_resampled = smote_tomek.fit_resample(X_train, y_train)
+X_test_resampled, y_test_resampled = smote_tomek.fit_resample(X_test, y_test)
 
-# Train the Balanced Random Forest model with hyperparameters
+# BRF model with hyperparameters
 brf_model = BalancedRandomForestClassifier(
     n_estimators=50,
     max_depth=4,
@@ -32,16 +37,15 @@ brf_model = BalancedRandomForestClassifier(
     max_features='sqrt',
     random_state=0
 )
-brf_model.fit(X_resampled, y_resampled)
+brf_model.fit(X_train_resampled, y_train_resampled)
 
-y_pred = brf_model.predict(X_test)
+y_pred = brf_model.predict(X_test_resampled)
 
-accuracy = accuracy_score(y_test, y_pred)
+accuracy = accuracy_score(y_test_resampled, y_pred)
 print(f"Accuracy: {accuracy:.3f}")
-print(classification_report(y_test, y_pred))
 
 # Confusion matrix
-conf_matrix = confusion_matrix(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test_resampled, y_pred)
 plt.figure(figsize=(8, 6))
 sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='YlGn',
             xticklabels=['Legitimate', 'Fraudulent'],
