@@ -34,4 +34,4 @@ This dataset contains simulated financial transactions from an online payment pl
 For this project, I will use the following machine learning algorithms:
 - **Decision Tree** -
 - **xGBoost** -
-...
+- **Balanced Random Forest** -
